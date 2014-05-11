@@ -21,7 +21,7 @@ public class MainController extends Activity {
 	private StringBuilder sb = new StringBuilder();
 	
 	TextView devicelabel;
-	Button signalBtn;
+	Button signalBtn, saveName;
 	EditText devicename_field;
 	
 	BluetoothManager btManager;
@@ -41,6 +41,7 @@ public class MainController extends Activity {
 	private void init() {
 		devicelabel = (TextView) findViewById(R.id.device_label);
 		signalBtn = (Button) findViewById(R.id.signal_button);
+		saveName = (Button) findViewById(R.id.save_device_name);
 		devicename_field = (EditText) findViewById(R.id.device_name);
 		
 		devicelabel.setText(device.getName());
@@ -77,6 +78,14 @@ public class MainController extends Activity {
 
 		btManager = new BluetoothManager(h);
 		
+		saveName.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO change device name
+				
+			}
+		});
 		
 		signalBtn.setOnClickListener(new OnClickListener() {
 			

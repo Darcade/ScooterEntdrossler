@@ -6,6 +6,7 @@
     <string name="device_name">Geräte Name:</string>
     <string name="action_settings">Settings</string>
     <string name="send_signal">entdrosseln</string>
+    <string name="save_device_name">Speichern</string>
     <string name="title_activity_main_controller">MainController</string>
 
 </resources>

@@ -40,4 +40,12 @@
         android:layout_alignLeft="@+id/device_name"
         android:text="@string/device_name" />
 
+    <Button
+        android:id="@+id/save_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/device_name"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save_device_name" />
+
 </RelativeLayout>
