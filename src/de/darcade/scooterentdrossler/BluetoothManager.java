@@ -26,6 +26,8 @@ public class BluetoothManager {
 
 	TextView txtArduino;
 	Handler h;
+	
+	private static char STX=2,ETX=3;
 
 	final int RECIEVE_MESSAGE = 1; // Status for Handler
 	private BluetoothAdapter btAdapter = null;
@@ -64,59 +66,69 @@ public class BluetoothManager {
 	public void sendOff() {
 		mConnectedThread.write("0");
 	}
+	
+	public void changeDeviceName(String newdevicename){
+		mConnectedThread.write(STX+"AT+NAME"+newdevicename+ETX);
+	}
 
-public void setupSocket(BluetoothDevice device){
-	  
-    //Log.d(TAG, "...onResume - try connect...");
-    
-    // Set up a pointer to the remote node using it's address.
-    //BluetoothDevice device = btAdapter.getRemoteDevice(device.getAddress());
-    
-    // Two things are needed to make a connection:
-    //   A MAC address, which we got above.
-    //   A Service ID or UUID.  In this case we are using the
-    //     UUID for SPP.
-     
-    try {
-        btSocket = createBluetoothSocket(device);
-    } catch (IOException e) {
-        //errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
-    }
-    
-    // Discovery is resource intensive.  Make sure it isn't going on
-    // when you attempt to connect and pass your message.
-    btAdapter.cancelDiscovery();
-    
-    // Establish the connection.  This will block until it connects.
-    Log.d(TAG, "...Connecting...");
-    try {
-      btSocket.connect();
-      Log.d(TAG, "....Connection ok...");
-    } catch (IOException e) {
-      try {
-        btSocket.close();
-      } catch (IOException e2) {
-        //errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
-      }
-    }
-      
-    // Create a data stream so we can talk to server.
-    Log.d(TAG, "...Create Socket...");
-    
-    mConnectedThread = new ConnectedThread(btSocket);
-    mConnectedThread.start();
-}
+	public void setupSocket(BluetoothDevice device) {
 
+		// Log.d(TAG, "...onResume - try connect...");
 
-public void pauseSocket(){
-    //Log.d(TAG, "...In onPause()...");
-	   
-    try     {
-      btSocket.close();
-    } catch (IOException e2) {
-      //errorExit("Fatal Error", "In onPause() and failed to close socket." + e2.getMessage() + ".");
-    }
-}
+		// Set up a pointer to the remote node using it's address.
+		// BluetoothDevice device =
+		// btAdapter.getRemoteDevice(device.getAddress());
+
+		// Two things are needed to make a connection:
+		// A MAC address, which we got above.
+		// A Service ID or UUID. In this case we are using the
+		// UUID for SPP.
+
+		try {
+			btSocket = createBluetoothSocket(device);
+		} catch (IOException e) {
+			// errorExit("Fatal Error",
+			// "In onResume() and socket create failed: " + e.getMessage() +
+			// ".");
+		}
+
+		// Discovery is resource intensive. Make sure it isn't going on
+		// when you attempt to connect and pass your message.
+		btAdapter.cancelDiscovery();
+
+		// Establish the connection. This will block until it connects.
+		Log.d(TAG, "...Connecting...");
+		try {
+			btSocket.connect();
+			Log.d(TAG, "....Connection ok...");
+		} catch (IOException e) {
+			try {
+				btSocket.close();
+			} catch (IOException e2) {
+				// errorExit("Fatal Error",
+				// "In onResume() and unable to close socket during connection failure"
+				// + e2.getMessage() + ".");
+			}
+		}
+
+		// Create a data stream so we can talk to server.
+		Log.d(TAG, "...Create Socket...");
+
+		mConnectedThread = new ConnectedThread(btSocket);
+		mConnectedThread.start();
+	}
+
+	public void pauseSocket() {
+		// Log.d(TAG, "...In onPause()...");
+
+		try {
+			btSocket.close();
+		} catch (IOException e2) {
+			// errorExit("Fatal Error",
+			// "In onPause() and failed to close socket." + e2.getMessage() +
+			// ".");
+		}
+	}
 
 	private class ConnectedThread extends Thread {
 		private final InputStream mmInStream;

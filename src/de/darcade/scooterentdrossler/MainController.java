@@ -82,7 +82,7 @@ public class MainController extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO change device name
+				btManager.changeDeviceName(devicename_field.getText().toString());
 				
 			}
 		});
