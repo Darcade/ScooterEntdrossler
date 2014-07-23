@@ -14,18 +14,52 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class BluetoothManager {
 	private static final String TAG = "BluetoothManager";
 
+	protected static final int SUCCESS_CONNECT = 0;
+    protected static final int MESSAGE_READ = 1;
+	
+    
+    MainController controller;
 	TextView txtArduino;
-	Handler h;
+	String tag = "debugging";
+	Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            Log.i(tag, "in handler");
+            super.handleMessage(msg);
+            switch(msg.what){
+            case SUCCESS_CONNECT:
+                // DO something
+                ConnectedThread connectedThread = new ConnectedThread((BluetoothSocket)msg.obj);
+                Toast.makeText(controller.getApplicationContext(), "CONNECT", 0).show();
+                String s = "successfully connected";
+                connectedThread.write(s);
+                Log.i(tag, "connected");
+                break;
+            case MESSAGE_READ:
+                byte[] readBuf = (byte[])msg.obj;
+                String string = new String(readBuf);
+                controller.btoutput.setMovementMethod(new ScrollingMovementMethod()); 
+                controller.btoutput.setText(controller.btoutput.getText() + string + "\n");
+                scrollToBottom();
+                //Toast.makeText(controller.getApplicationContext(), string, 0).show();
+                break;
+            }
+        }
+    };
 	
 	private static char STX=2,ETX=3;
 
@@ -39,8 +73,8 @@ public class BluetoothManager {
 	private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-	public BluetoothManager(Handler h) {
-		this.h = h;
+	public BluetoothManager(MainController controller) {
+		this.controller = controller;
 		btAdapter = BluetoothAdapter.getDefaultAdapter();
 	}
 
@@ -65,6 +99,10 @@ public class BluetoothManager {
 
 	public void sendOff() {
 		mConnectedThread.write("0");
+	}
+	
+	public void getVersion() {
+		mConnectedThread.write("?");
 	}
 	
 	public void changeDeviceName(String newdevicename){
@@ -130,6 +168,22 @@ public class BluetoothManager {
 		}
 	}
 
+	
+
+	private void scrollToBottom()
+	{
+		final TextView mTextStatus = (TextView) controller.findViewById(R.id.btoutput_label);
+		final ScrollView mScrollView = (ScrollView) controller.findViewById(R.id.SCROLLER_ID);
+	    mScrollView.post(new Runnable()
+	    { 
+	        public void run()
+	        { 
+	            mScrollView.smoothScrollTo(0, mTextStatus.getBottom());
+	        } 
+	    });
+	}
+	
+	
 	private class ConnectedThread extends Thread {
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
@@ -160,7 +214,7 @@ public class BluetoothManager {
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer); // Get number of bytes and
 														// message in "buffer"
-					h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer)
+					mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
 							.sendToTarget(); // Send to message queue Handler
 				} catch (IOException e) {
 					break;
@@ -179,4 +233,6 @@ public class BluetoothManager {
 			}
 		}
 	}
+	
+	
 }

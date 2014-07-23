@@ -4,6 +4,7 @@
     <string name="app_name">ScooterEntdrossler</string>
     <string name="paired_devices">Geräte:</string>
     <string name="device_name">Geräte Name:</string>
+        <string name="device_pin">Geräte Pin:</string>
     <string name="action_settings">Settings</string>
     <string name="send_signal">entdrosseln</string>
     <string name="save_device_name">Speichern</string>

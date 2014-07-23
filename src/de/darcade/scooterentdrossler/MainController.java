@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,9 +20,9 @@ public class MainController extends Activity {
 	BluetoothDevice device;
 	BluetoothAdapter btAdapter;
 
-	private StringBuilder sb = new StringBuilder();
 	
-	TextView devicelabel;
+	
+	TextView devicelabel, btoutput;
 	Button signalBtn, saveName;
 	EditText devicename_field;
 	
@@ -40,43 +42,19 @@ public class MainController extends Activity {
 
 	private void init() {
 		devicelabel = (TextView) findViewById(R.id.device_label);
+		btoutput = (TextView) findViewById(R.id.btoutput_label);
+		btoutput.setMovementMethod(new ScrollingMovementMethod());
 		signalBtn = (Button) findViewById(R.id.signal_button);
 		saveName = (Button) findViewById(R.id.save_device_name);
 		devicename_field = (EditText) findViewById(R.id.device_name);
 		
+		
 		devicelabel.setText(device.getName());
 		devicename_field.setText(device.getName());
 
-		Handler h = new Handler() {
-			public void handleMessage(android.os.Message msg) {
-				switch (msg.what) {
-				case RECIEVE_MESSAGE: // if receive massage
-					/*byte[] readBuf = (byte[]) msg.obj;
-					String strIncom = new String(readBuf, 0, msg.arg1); // create
-																		// string
-																		// from
-																		// bytes
-																		// array
-					sb.append(strIncom); // append string
-					int endOfLineIndex = sb.indexOf("\r\n"); // determine the
-																// end-of-line
-					if (endOfLineIndex > 0) { // if end-of-line,
-						String sbprint = sb.substring(0, endOfLineIndex); // extract
-																			// string
-						sb.delete(0, sb.length()); // and clear
-						txtArduino.setText("Data from Arduino: " + sbprint); // update
-																				// TextView
-						btnOff.setEnabled(true);
-						btnOn.setEnabled(true);
-					}
-					// Log.d(TAG, "...String:"+ sb.toString() + "Byte:" +
-					// msg.arg1 + "...");*/
-					break;
-				}
-			};
-		};
+		
 
-		btManager = new BluetoothManager(h);
+		btManager = new BluetoothManager(this);
 		
 		saveName.setOnClickListener(new OnClickListener() {
 			
@@ -108,6 +86,7 @@ public class MainController extends Activity {
 	    super.onResume();
 	    init();
 	    btManager.setupSocket(device);
+	    btManager.getVersion();
 	  }
 	  
 	  @Override

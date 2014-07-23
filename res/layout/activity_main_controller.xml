@@ -21,12 +21,22 @@
         android:layout_centerHorizontal="true"
         android:text="@string/send_signal" />
 
+    <Button
+        android:id="@+id/save_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/signal_button"
+        android:layout_below="@+id/device_name"
+        android:layout_marginTop="17dp"
+        android:text="@string/save_device_name" />
+
     <EditText
         android:id="@+id/device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/signal_button"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="57dp"
         android:ems="10" >
 
         <requestFocus />
@@ -36,16 +46,27 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/device_name"
+        android:layout_alignBottom="@+id/device_name"
         android:layout_alignLeft="@+id/device_name"
+        android:layout_marginBottom="35dp"
         android:text="@string/device_name" />
 
-    <Button
-        android:id="@+id/save_device_name"
+<ScrollView
+    android:id="@+id/SCROLLER_ID"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/device_label"
+    android:layout_alignParentBottom="true"
+    android:layout_below="@+id/save_device_name"
+    android:fillViewport="true"
+    android:scrollbars="vertical" >
+
+    <TextView
+        android:id="@+id/btoutput_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/device_name"
-        android:layout_centerHorizontal="true"
-        android:text="@string/save_device_name" />
-
+        android:layout_marginTop="16dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+         />
+</ScrollView>
 </RelativeLayout>
