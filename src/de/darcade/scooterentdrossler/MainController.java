@@ -1,13 +1,14 @@
 package de.darcade.scooterentdrossler;
 
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,14 +21,12 @@ public class MainController extends Activity {
 	BluetoothDevice device;
 	BluetoothAdapter btAdapter;
 
-	
-	
 	TextView devicelabel, btoutput;
 	Button signalBtn, saveName;
 	EditText devicename_field;
-	
+
 	BluetoothManager btManager;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,7 +36,23 @@ public class MainController extends Activity {
 		device = btAdapter.getRemoteDevice(getIntent().getExtras().getString(
 				"device-address"));
 
-		//init();
+		// init();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_settings)
+			startActivity(new Intent(this, MainController.class));
+		return true;
+
 	}
 
 	private void init() {
@@ -47,52 +62,45 @@ public class MainController extends Activity {
 		signalBtn = (Button) findViewById(R.id.signal_button);
 		saveName = (Button) findViewById(R.id.save_device_name);
 		devicename_field = (EditText) findViewById(R.id.device_name);
-		
-		
+
 		devicelabel.setText(device.getName());
 		devicename_field.setText(device.getName());
 
-		
-
 		btManager = new BluetoothManager(this);
-		
+
 		saveName.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				btManager.changeDeviceName(devicename_field.getText().toString());
-				
+				btManager.changeDeviceName(devicename_field.getText()
+						.toString());
+
 			}
 		});
-		
+
 		signalBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				btManager.sendOn();
-		         
+
 			}
 		});
-		
-		
-		
-	}
-	
-	
-	
-	
-	  @Override
-	  public void onResume() {
-	    super.onResume();
-	    init();
-	    btManager.setupSocket(device);
-	    btManager.getVersion();
-	  }
-	  
-	  @Override
-	  public void onPause() {
-	    super.onPause();
-	  //btManager.pauseSocket();
 
-	  }
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		init();
+		btManager.setupSocket(device);
+		btManager.getVersion();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		// btManager.pauseSocket();
+
+	}
 }
