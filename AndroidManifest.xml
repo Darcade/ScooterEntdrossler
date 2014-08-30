@@ -29,6 +29,14 @@
             android:name="de.darcade.scooterentdrossler.MainController"
             android:label="@string/title_activity_main_controller" >
         </activity>
+        <activity
+            android:name="de.darcade.scooterentdrossler.DeviceChooser"
+            android:label="@string/title_activity_device_manager" >
+        </activity>
+               <activity
+            android:name="de.darcade.scooterentdrossler.SettingsMenu"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

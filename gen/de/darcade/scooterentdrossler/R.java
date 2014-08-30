@@ -1092,14 +1092,14 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050049;
+        public static final int action_settings=0x7f05004a;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
-        public static final int autoconnect_device_info=0x7f050046;
-        public static final int autoconnect_device_label=0x7f050047;
+        public static final int autoconnect_box=0x7f050049;
+        public static final int autoconnect_device_info=0x7f050047;
+        public static final int autoconnect_device_label=0x7f050048;
         public static final int beginning=0x7f050011;
         public static final int btoutput_label=0x7f050042;
-        public static final int change_autodevice_button=0x7f050048;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
         public static final int connected_devices=0x7f050045;
@@ -1130,6 +1130,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
+        public static final int reload_button=0x7f050046;
         public static final int save_device_name=0x7f05003f;
         public static final int search_badge=0x7f050032;
         public static final int search_bar=0x7f050031;
@@ -1207,9 +1208,10 @@ containing a value of this type.
         public static final int abc_simple_decor=0x7f030017;
         public static final int activity_main=0x7f030018;
         public static final int activity_main_controller=0x7f030019;
-        public static final int fragment_main=0x7f03001a;
-        public static final int settings_menu=0x7f03001b;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
+        public static final int device_chooser=0x7f03001a;
+        public static final int fragment_main=0x7f03001b;
+        public static final int settings_menu=0x7f03001c;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1257,15 +1259,22 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
         public static final int action_settings=0x7f0a0011;
         public static final int app_name=0x7f0a000d;
-        public static final int autoconnect_device=0x7f0a0015;
-        public static final int change=0x7f0a0017;
+        public static final int autoconnect_device=0x7f0a0017;
+        public static final int changing_name=0x7f0a001c;
+        public static final int connect_on_start=0x7f0a001a;
         public static final int device_name=0x7f0a000f;
         public static final int device_pin=0x7f0a0010;
-        public static final int none=0x7f0a0016;
+        public static final int first_set_device=0x7f0a001b;
+        public static final int none=0x7f0a0018;
         public static final int paired_devices=0x7f0a000e;
+        public static final int problem_connection=0x7f0a001d;
+        public static final int reload=0x7f0a001e;
+        public static final int save=0x7f0a0019;
         public static final int save_device_name=0x7f0a0013;
         public static final int send_signal=0x7f0a0012;
+        public static final int title_activity_device_manager=0x7f0a0015;
         public static final int title_activity_main_controller=0x7f0a0014;
+        public static final int title_activity_settings=0x7f0a0016;
     }
     public static final class style {
         /** 

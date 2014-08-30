@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <TextView
+        android:id="@+id/autoconnect_device_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/autoconnect_device_label"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="56dp"
+        android:text="@string/autoconnect_device" />
+
+    <TextView
+        android:id="@+id/autoconnect_device_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/autoconnect_device_info"
+        android:layout_marginLeft="30dp"
+        android:clickable="true"
+        android:text="@string/none"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <CheckBox
+        android:id="@+id/autoconnect_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/autoconnect_device_label"
+        android:layout_below="@+id/autoconnect_device_label"
+        android:layout_marginTop="15dp"
+        android:text="@string/connect_on_start" />
+
+</RelativeLayout>

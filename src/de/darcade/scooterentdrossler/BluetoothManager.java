@@ -3,6 +3,7 @@ package de.darcade.scooterentdrossler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
@@ -22,40 +23,46 @@ public class BluetoothManager {
 	private static final String TAG = "BluetoothManager";
 
 	protected static final int SUCCESS_CONNECT = 0;
-    protected static final int MESSAGE_READ = 1;
+	protected static final int MESSAGE_READ = 1;
+
 	
-    
-    MainController controller;
+	
+	MainController controller;
 	TextView txtArduino;
 	String tag = "debugging";
-	Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            Log.i(tag, "in handler");
-            super.handleMessage(msg);
-            switch(msg.what){
-            case SUCCESS_CONNECT:
-                // DO something
-                ConnectedThread connectedThread = new ConnectedThread((BluetoothSocket)msg.obj);
-                Toast.makeText(controller.getApplicationContext(), "CONNECT", 0).show();
-                String s = "successfully connected";
-                connectedThread.write(s);
-                Log.i(tag, "connected");
-                break;
-            case MESSAGE_READ:
-                byte[] readBuf = (byte[])msg.obj;
-                String string = new String(readBuf);
-                controller.btoutput.setMovementMethod(new ScrollingMovementMethod()); 
-                controller.btoutput.setText(controller.btoutput.getText() + string + "\n");
-                scrollToBottom();
-                //Toast.makeText(controller.getApplicationContext(), string, 0).show();
-                break;
-            }
-        }
-    };
+	Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			Log.i(tag, "in handler");
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case SUCCESS_CONNECT:
+				// DO something
+				ConnectedThread connectedThread = new ConnectedThread(
+						(BluetoothSocket) msg.obj);
+				// Toast.makeText(controller.getApplicationContext(), "CONNECT",
+				// 0).show();
+				String s = "successfully connected";
+				connectedThread.write(s);
+				Log.i(tag, "connected");
+				break;
+			case MESSAGE_READ:
+				byte[] readBuf = (byte[]) msg.obj;
+				String string = new String(readBuf);
+				controller.btoutput
+						.setMovementMethod(new ScrollingMovementMethod());
+				controller.btoutput.setText(controller.btoutput.getText()
+						+ string + "\n");
+				scrollToBottom();
+				// Toast.makeText(controller.getApplicationContext(), string,
+				// 0).show();
+				break;
+			}
+		}
+	};
+
 	
-	private static char STX=2,ETX=3;
 
 	final int RECIEVE_MESSAGE = 1; // Status for Handler
 	private BluetoothAdapter btAdapter = null;
@@ -73,7 +80,7 @@ public class BluetoothManager {
 	}
 
 	private BluetoothSocket createBluetoothSocket(BluetoothDevice device)
-			throws IOException {
+			throws IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (Build.VERSION.SDK_INT >= 10) {
 			try {
 				final Method m = device.getClass().getMethod(
@@ -84,23 +91,29 @@ public class BluetoothManager {
 				Log.e(TAG, "Could not create Insecure RFComm Connection", e);
 			}
 		}
-		return device.createRfcommSocketToServiceRecord(MY_UUID);
+		Method m = device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
+		return (BluetoothSocket) m.invoke(device, 1);
 	}
 
-	public void sendOn() {
-		mConnectedThread.write("1");
+	public void sendOn(BluetoothDevice device) {
+		if (!mConnectedThread.write("1"))
+			setupSocket(device);
+
 	}
 
-	public void sendOff() {
-		mConnectedThread.write("0");
+	public void sendOff(BluetoothDevice device) {
+		if (!mConnectedThread.write("0"))
+			setupSocket(device);
 	}
-	
-	public void getVersion() {
-		mConnectedThread.write("?");
+
+	public void getVersion(BluetoothDevice device) {
+		if (!mConnectedThread.write("?"))
+			setupSocket(device);
 	}
-	
-	public void changeDeviceName(String newdevicename){
-		mConnectedThread.write(STX+"AT+NAME"+newdevicename+ETX);
+
+	public void changeDeviceName(String newdevicename, BluetoothDevice device) {
+		if (!mConnectedThread.write("AT+NAME" + newdevicename + '\n'))
+			setupSocket(device);
 	}
 
 	public void setupSocket(BluetoothDevice device) {
@@ -117,7 +130,13 @@ public class BluetoothManager {
 		// UUID for SPP.
 
 		try {
-			btSocket = createBluetoothSocket(device);
+			try {
+				btSocket = createBluetoothSocket(device);
+			} catch (NoSuchMethodException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			// errorExit("Fatal Error",
 			// "In onResume() and socket create failed: " + e.getMessage() +
@@ -136,10 +155,11 @@ public class BluetoothManager {
 		} catch (IOException e) {
 			try {
 				btSocket.close();
+				Toast.makeText(controller, controller.getString(R.string.problem_connection), Toast.LENGTH_LONG).show();
+				e.printStackTrace();
 			} catch (IOException e2) {
-				// errorExit("Fatal Error",
-				// "In onResume() and unable to close socket during connection failure"
-				// + e2.getMessage() + ".");
+				System.out.println("In onResume() and unable to close socket during connection failure"
+				 + e2.getMessage() + ".");
 			}
 		}
 
@@ -162,22 +182,18 @@ public class BluetoothManager {
 		}
 	}
 
-	
-
-	private void scrollToBottom()
-	{
-		final TextView mTextStatus = (TextView) controller.findViewById(R.id.btoutput_label);
-		final ScrollView mScrollView = (ScrollView) controller.findViewById(R.id.SCROLLER_ID);
-	    mScrollView.post(new Runnable()
-	    { 
-	        public void run()
-	        { 
-	            mScrollView.smoothScrollTo(0, mTextStatus.getBottom());
-	        } 
-	    });
+	private void scrollToBottom() {
+		final TextView mTextStatus = (TextView) controller
+				.findViewById(R.id.btoutput_label);
+		final ScrollView mScrollView = (ScrollView) controller
+				.findViewById(R.id.SCROLLER_ID);
+		mScrollView.post(new Runnable() {
+			public void run() {
+				mScrollView.smoothScrollTo(0, mTextStatus.getBottom());
+			}
+		});
 	}
-	
-	
+
 	private class ConnectedThread extends Thread {
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
@@ -217,16 +233,17 @@ public class BluetoothManager {
 		}
 
 		/* Call this from the main activity to send data to the remote device */
-		public void write(String message) {
+		public boolean write(String message) {
 			Log.d(TAG, "...Data to send: " + message + "...");
 			byte[] msgBuffer = message.getBytes();
 			try {
 				mmOutStream.write(msgBuffer);
+				return true;
 			} catch (IOException e) {
 				Log.d(TAG, "...Error data send: " + e.getMessage() + "...");
+				return false;
 			}
 		}
 	}
-	
-	
+
 }

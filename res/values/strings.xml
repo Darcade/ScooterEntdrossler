@@ -9,7 +9,14 @@
     <string name="send_signal">entdrosseln</string>
     <string name="save_device_name">Speichern</string>
     <string name="title_activity_main_controller">MainController</string>
+    <string name="title_activity_device_manager">DeviceManager</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="autoconnect_device">Standard Scooter</string>
 	<string name="none">Keiner</string>
-	<string name="change">Ändern</string>
+	<string name="save">Speichern</string>
+	<string name="connect_on_start">Verbinde beim Start</string>
+	<string name="first_set_device">Bitte stelle zu erst ein Autostart Gerät ein.</string>
+	<string name="changing_name">Ändere namen...</string>
+	<string name="problem_connection">Problem beim herstellen der Verbindung</string>
+	<string name="reload">neu laden</string>
 </resources>

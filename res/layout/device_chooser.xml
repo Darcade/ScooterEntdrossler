@@ -12,7 +12,6 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/reload_button"
         android:layout_below="@+id/connected_devices" >
 
     </ListView>
@@ -22,15 +21,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/paired_devices" />
-
-    <Button
-        android:id="@+id/reload_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/listView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:text="@string/reload" />
 
 </RelativeLayout>
