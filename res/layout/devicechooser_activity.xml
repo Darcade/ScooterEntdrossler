@@ -16,20 +16,6 @@
         android:layout_weight="0.03" >
     </ListView>
 
-    <TextView
-        android:id="@+id/availableDevices_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/available_devices" />
-
-    <ListView
-        android:id="@+id/availableDevices_list"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_weight="0.02" >
-
-    </ListView>
-
     <Button
         android:id="@+id/reload_button"
         android:layout_width="wrap_content"

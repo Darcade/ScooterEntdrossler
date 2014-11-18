@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.darcade.scooterentdrossler"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="3"
+    android:versionName="1.2" android:installLocation="auto">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -26,16 +26,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.darcade.scooterentdrossler.MainController"
-            android:label="@string/title_activity_main_controller" >
+            android:name="de.darcade.scooterentdrossler.DZBController"
+            android:label="@string/title_activity_DZBController" >
         </activity>
         <activity
-            android:name="de.darcade.scooterentdrossler.DeviceChooser"
-            android:label="@string/title_activity_device_manager" >
-        </activity>
-               <activity
             android:name="de.darcade.scooterentdrossler.SettingsMenu"
             android:label="@string/title_activity_settings" >
+        </activity>
+         <activity
+            android:name="de.darcade.scooterentdrossler.DeviceChooser"
+            android:label="@string/title_activity_device_chooser" >
         </activity>
     </application>
 

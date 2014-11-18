@@ -8,6 +8,7 @@ public class SettingsManager {
 	public static final String DEVICE_ADRESS_KEY = "device_address";
 	public static final String DEVICE_NAME_KEY = "device_name";
 	public static final String AUTOCONNECT = "autoconnect";
+	public static final String BLUE_AUTO_TOGGLE = "blue_auto_toggle";
 	
 	private SharedPreferences settings;
 	
@@ -34,5 +35,13 @@ public class SettingsManager {
 	
 	public boolean setAutoconnect(boolean autoconnect){
 		return settings.edit().putBoolean(AUTOCONNECT, autoconnect).commit();
+	}
+	
+	public boolean getBlueAutotoggle(){
+		return settings.getBoolean(BLUE_AUTO_TOGGLE, false);
+	}
+	
+	public boolean setBlueAutotoggle(boolean blueautotoggle){
+		return settings.edit().putBoolean(BLUE_AUTO_TOGGLE, blueautotoggle).commit();
 	}
 }

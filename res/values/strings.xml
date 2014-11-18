@@ -2,21 +2,36 @@
 <resources>
 
     <string name="app_name">ScooterEntdrossler</string>
-    <string name="paired_devices">Geräte:</string>
+    <string name="paired_devices">Gepaarte Geräte:</string>
+    <string name="available_devices">Verfügbare Geräte:</string>
+    <string name="devices">Geräte:</string>
     <string name="device_name">Geräte Name:</string>
     <string name="device_pin">Geräte Pin:</string>
     <string name="action_settings">Settings</string>
     <string name="send_signal">entdrosseln</string>
     <string name="save_device_name">Speichern</string>
-    <string name="title_activity_main_controller">MainController</string>
+    <string name="title_activity_DZBController">DZBController</string>
     <string name="title_activity_device_manager">DeviceManager</string>
     <string name="title_activity_settings">Settings</string>
     <string name="autoconnect_device">Standard Scooter</string>
-	<string name="none">Keiner</string>
-	<string name="save">Speichern</string>
-	<string name="connect_on_start">Verbinde beim Start</string>
-	<string name="first_set_device">Bitte stelle zu erst ein Autostart Gerät ein.</string>
-	<string name="changing_name">Ändere namen...</string>
-	<string name="problem_connection">Problem beim herstellen der Verbindung</string>
-	<string name="reload">neu laden</string>
+    <string name="none">Keiner</string>
+    <string name="save">Speichern</string>
+    <string name="connect_on_start">Verbinde beim Start</string>
+    <string name="first_set_device">Bitte stelle zu erst ein Autostart Gerät ein.</string>
+    <string name="problem_connection">Problem beim herstellen der Verbindung</string>
+    <string name="reload">neu laden</string>
+    <string name="automaticly_start_bluetooth">Starte Bluetooth automatisch.</string>
+    <string name="bluetooth_automaticly_enabled">Bluetooth wurde automatisch aktiviert</string>
+    <string name="device_has_no_bluetooth">Ihr Gerät hat kein Bluetooth!</string>
+    <string name="none_paired">Es wurden keine Geräte gepaart</string>
+    <string name="none_found">Keine Geräte gefunden</string>
+    <string name="select_device">Wähle ein Gerät zum verbinden aus</string>
+    <string name="toast_unable_to_connect">Konnte mich nicht verbinden</string>
+    <string name="toast_connection_lost">Verbindung verloren</string>
+    <string name="connecting">verbinde</string>
+    <string name="connected">verbunden</string>
+    <string name="title_activity_device_chooser">Wähle ein gerät für das automatische verbinden aus:</string>
+    <string name="changing_name">Ändere Namen des Gerätes</string>
+    <string name="finished">fertig</string>
+
 </resources>

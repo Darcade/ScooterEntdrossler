@@ -34,4 +34,12 @@
         android:layout_marginTop="15dp"
         android:text="@string/connect_on_start" />
 
+    <CheckBox
+        android:id="@+id/bluetooth_autorun_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/autoconnect_box"
+        android:layout_below="@+id/autoconnect_box"
+        android:text="@string/automaticly_start_bluetooth" />
+
 </RelativeLayout>
