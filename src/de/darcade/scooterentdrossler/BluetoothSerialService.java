@@ -1,4 +1,7 @@
 /*
+ * This code is taken from https://github.com/johnhowe/BlueTerm
+ * and has been slightly changed...
+ * 
  * Copyright (C) 2009 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
