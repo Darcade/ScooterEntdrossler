@@ -35,9 +35,9 @@ public class DZBController extends Activity {
 	 * once and used permanently to minimize heap thrashing.
 	 */
 	private byte[] mReceiveBuffer;
-	
+
 	private boolean changingName = false;
-	
+
 	private ByteQueue mByteQueue;
 
 	private BluetoothAdapter btAdapter = null;
@@ -60,8 +60,7 @@ public class DZBController extends Activity {
 		entdrosselButton = (Button) findViewById(R.id.entdrosslerButton);
 		saveButton = (Button) findViewById(R.id.save_button);
 		connectBar = (ProgressBar) findViewById(R.id.progressBar1);
-		
-		
+
 		deviceNameEditor = (EditText) findViewById(R.id.deviceName_TextField);
 		deviceOutput = (TextView) findViewById(R.id.deviceOutput);
 
@@ -99,18 +98,22 @@ public class DZBController extends Activity {
 					}
 				});
 				saveButton.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						changingName = true;
-						deviceOutput.setText(deviceOutput.getText().toString() + '\n' + getString(R.string.changing_name));
+						deviceOutput.setText(deviceOutput.getText().toString()
+								+ '\n' + getString(R.string.changing_name)
+								+ '\n');
 						connectBar.setVisibility(View.VISIBLE);
-						mSerialService.write(new String ("AT+NAME" + deviceNameEditor.getText() + '\n').getBytes());
+						mSerialService.write(new String("AT+NAME"
+								+ deviceNameEditor.getText() + '\n').getBytes());
 						mSerialService.stop();
-						
+
 						SystemClock.sleep(5000);
 						mSerialService.start();
-						mSerialService.connect(btAdapter.getRemoteDevice(deviceMac));
+						mSerialService.connect(btAdapter
+								.getRemoteDevice(deviceMac));
 						connectBar.setVisibility(View.INVISIBLE);
 					}
 				});
@@ -118,9 +121,9 @@ public class DZBController extends Activity {
 		}
 
 	}
-	
+
 	@Override
-	public void onPause(){
+	public void onPause() {
 		super.onPause();
 		if (mSerialService != null)
 			mSerialService.stop();
@@ -150,21 +153,27 @@ public class DZBController extends Activity {
 				switch (msg.arg1) {
 				case BluetoothSerialService.STATE_CONNECTED:
 					/*
-					  if (mMenuItemConnect != null) { 
-						  mMenuItemConnect.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-						  mMenuItemConnect.setTitle(R.string.disconnect); 
-					  }
-					  mInputManager.showSoftInput(mEmulatorView, InputMethodManager.SHOW_IMPLICIT);
-					  mTitle.setText(R.string.title_connected_to);
-					  mTitle.append(" " + mConnectedDeviceName);*/
-					 
+					 * if (mMenuItemConnect != null) {
+					 * mMenuItemConnect.setIcon(android
+					 * .R.drawable.ic_menu_close_clear_cancel);
+					 * mMenuItemConnect.setTitle(R.string.disconnect); }
+					 * mInputManager.showSoftInput(mEmulatorView,
+					 * InputMethodManager.SHOW_IMPLICIT);
+					 * mTitle.setText(R.string.title_connected_to);
+					 * mTitle.append(" " + mConnectedDeviceName);
+					 */
+
 					connectBar.setVisibility(View.INVISIBLE);
-					//setTitle(mConnectedDeviceName + getString(R.string.connected));
-					//Toast.makeText(DZBController.this, msg.getData().getString(DEVICE_NAME), Toast.LENGTH_LONG).show();
+					// setTitle(mConnectedDeviceName +
+					// getString(R.string.connected));
+					// Toast.makeText(DZBController.this,
+					// msg.getData().getString(DEVICE_NAME),
+					// Toast.LENGTH_LONG).show();
 					break;
 				case BluetoothSerialService.STATE_CONNECTING:
-					setTitle(getTitle() + " (" + getString(R.string.connecting) + ")");
-					//mTitle.setText(R.string.title_connecting);
+					setTitle(msg.getData().getString(DEVICE_NAME) + " (" + getString(R.string.connecting)
+							+ ")");
+					// mTitle.setText(R.string.title_connecting);
 					connectBar.setVisibility(View.VISIBLE);
 					break;
 				case BluetoothSerialService.STATE_LISTEN:
@@ -187,31 +196,34 @@ public class DZBController extends Activity {
 				 */
 				break;
 
-			/*case MESSAGE_READ:
-				byte[] readBuf = (byte[]) msg.obj;
-				try {
-					DZBController.this.write(new String(readBuf, "UTF-8"));
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				break;*/
+			/*
+			 * case MESSAGE_READ: byte[] readBuf = (byte[]) msg.obj; try {
+			 * DZBController.this.write(new String(readBuf, "UTF-8")); } catch
+			 * (UnsupportedEncodingException e) { // TODO Auto-generated catch
+			 * block e.printStackTrace(); }
+			 * 
+			 * break;
+			 */
 
 			case MESSAGE_DEVICE_NAME:
-				
-				  // save the connected device's name 
-				  String mConnectedDeviceName = msg.getData().getString(DEVICE_NAME); 
-				  //Toast.makeText(getApplicationContext(), mConnectedDeviceName, Toast.LENGTH_SHORT) .show();
-				  setTitle(mConnectedDeviceName + " (" + getString(R.string.connected) + ")");
-				  
-				  
+
+				// save the connected device's name
+				String mConnectedDeviceName = msg.getData().getString(
+						DEVICE_NAME);
+				// Toast.makeText(getApplicationContext(), mConnectedDeviceName,
+				// Toast.LENGTH_SHORT) .show();
+				setTitle(mConnectedDeviceName + " ("
+						+ getString(R.string.connected) + ")");
+
 				break;
 			case MESSAGE_TOAST:
 				Toast.makeText(getApplicationContext(),
 						msg.getData().getString(TOAST), Toast.LENGTH_SHORT)
 						.show();
-				if(!changingName && msg.getData().getString(TOAST).equals(getString(R.string.toast_unable_to_connect)))
+				if (!changingName
+						&& msg.getData()
+								.getString(TOAST)
+								.equals(getString(R.string.toast_unable_to_connect)))
 					finish();
 				break;
 			}
@@ -250,7 +262,6 @@ public class DZBController extends Activity {
 		} catch (InterruptedException e) {
 		}
 	}
-
 
 }
 

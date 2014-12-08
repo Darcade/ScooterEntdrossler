@@ -28,6 +28,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
 	protected static final String DEVICE_MAC_KEY = "device_mac";
+	private static final int REQUEST_ENABLE_BT = 1;
 
 	private boolean mEnablingBT = false;
 	private boolean mAutoconnected = false;
@@ -90,9 +91,9 @@ public class MainActivity extends Activity {
 					mEnablingBT = true;
 					Intent btIntent = new Intent(
 							BluetoothAdapter.ACTION_REQUEST_ENABLE);
-					startActivityForResult(btIntent, 1);
+					startActivityForResult(btIntent, REQUEST_ENABLE_BT);
 					//btIntent.
-					restartApp();
+					
 				}
 
 				System.out.println("DOING LOOP_END");
@@ -123,8 +124,10 @@ public class MainActivity extends Activity {
 		if (pairedDevices.size() > 0) {
 
 			for (BluetoothDevice device : pairedDevices) {
-				mPairedDevicesArrayAdapter.add(device.getName() + "\n"
-						+ device.getAddress());
+				if (!checkDevice(device.getName() + "\n" + device.getAddress(),
+						mPairedDevicesArrayAdapter))
+					mPairedDevicesArrayAdapter.add(device.getName() + "\n"
+							+ device.getAddress());
 			}
 		} else {
 			String noDevices = getResources().getString(R.string.none_paired)
@@ -166,9 +169,9 @@ public class MainActivity extends Activity {
 			Toast.makeText(this,
 					getString(R.string.bluetooth_automaticly_enabled),
 					Toast.LENGTH_SHORT).show();
-			
+
 			restartApp();
-			
+
 			return true;
 		} else {
 			return false;
@@ -225,7 +228,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	private void restartApp(){
+	private void restartApp() {
 		Intent mStartActivity = new Intent(this, MainActivity.class);
 		int mPendingIntentId = 123456;
 		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
@@ -237,9 +240,7 @@ public class MainActivity extends Activity {
 				mPendingIntent);
 		System.exit(0);
 	}
-	
 
-	
 	/**
 	 * Start device discover with the BluetoothAdapter
 	 */
@@ -356,5 +357,14 @@ public class MainActivity extends Activity {
 		}
 
 		return listed;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if (requestCode == REQUEST_ENABLE_BT) {
+			restartApp();
+		}
+
 	}
 }
